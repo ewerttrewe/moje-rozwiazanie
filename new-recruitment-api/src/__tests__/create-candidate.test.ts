@@ -148,10 +148,7 @@ describe("POST /candidates", () => {
 
     it("should rollback the candidate when Legacy API fails", async () => {
         createLegacyCandidateMock.mockRejectedValueOnce(
-            createHttpError(
-                502,
-                "Legacy API request failed",
-            ),
+            createHttpError(502, "Legacy API request failed"),
         );
 
         const payload: CreateCandidateDto = {

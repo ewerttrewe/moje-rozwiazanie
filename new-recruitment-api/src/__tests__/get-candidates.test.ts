@@ -117,7 +117,7 @@ describe("GET /candidates", () => {
             items: [],
             pagination: {
                 page: 1,
-                limit: 20,
+                limit: 5,
                 total: 0,
                 totalPages: 0,
             },
