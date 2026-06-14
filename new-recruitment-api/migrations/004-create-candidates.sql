@@ -10,10 +10,10 @@ CREATE TABLE Candidate (
     status TEXT NOT NULL
        CHECK (
            status IN (
-                      'new',
-                      'in_progress',
-                      'accepted',
-                      'rejected'
+                  'new',
+                  'in_progress',
+                  'accepted',
+                  'rejected'
                )
            ),
     consent_date TEXT NOT NULL,

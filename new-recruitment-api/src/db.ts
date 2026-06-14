@@ -8,9 +8,14 @@ export const setupDb = async () => {
         driver: sqlite3.Database,
     });
 
+    await db.exec("PRAGMA foreign_keys = ON");
+
     await db.migrate({
-        migrationsPath: path.resolve(process.cwd(), "./migrations"),
+        migrationsPath: path.resolve(
+            process.cwd(),
+            "migrations",
+        ),
     });
 
     return db;
-}
+};

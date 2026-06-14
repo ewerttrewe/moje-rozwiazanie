@@ -1,20 +1,31 @@
-import { Request, Response, Router } from "express";
+import type { Request, Response } from "express";
+import { Router } from "express";
+import { CandidatesService } from "./candidates.service";
+import { createCandidateSchema, CreateCandidateDto } from "./dto/create-candidate.dto";
+import { listCandidatesQuerySchema, ListCandidatesQueryDto } from "./dto/list-candidates.dto";
+import { validateBody, validateQuery } from "../middlewares/candidate-validation.middleware";
 
 export class CandidatesController {
     readonly router = Router();
 
-    constructor() {
-        this.router.get('/candidates', this.getAll.bind(this));
-        this.router.post('/candidates', this.create.bind(this));
+    constructor(
+        private readonly candidatesService: CandidatesService,
+    ) {
+        this.router.get("/", validateQuery(listCandidatesQuerySchema), this.getAll);
+        this.router.post("/", validateBody(createCandidateSchema), this.create);
     }
 
-    getAll(req: Request, res: Response) {
-        console.log(x);
-        var x = 1;
-        res.json([]);
-    }
+    private readonly getAll = async (_req: Request, res: Response) => {
+        const query = res.locals.validatedQuery as ListCandidatesQueryDto;
+        const result = await this.candidatesService.getAll(query);
 
-    create(req: Request, res: Response) {
-        res.json({});
-    }
+        res.status(200).json(result);
+    };
+
+    private readonly create = async (_req: Request, res: Response) => {
+        const input = res.locals.validatedBody as CreateCandidateDto;
+        const candidate = await this.candidatesService.create(input);
+
+        res.status(201).json({message: "Candidate created successfully", candidate});
+    };
 }
