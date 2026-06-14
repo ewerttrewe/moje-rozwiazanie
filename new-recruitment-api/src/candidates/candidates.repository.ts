@@ -56,9 +56,7 @@ export class CandidatesRepository {
     async findExistingJobOfferIds(
         jobOfferIds: number[],
     ) {
-        if (jobOfferIds.length === 0) {
-            return [];
-        }
+        if (jobOfferIds.length === 0) return [];
 
         const placeholders = jobOfferIds
             .map(() => "?")
@@ -106,7 +104,6 @@ export class CandidatesRepository {
         );
 
         const candidateId = result.lastID;
-
         if (!candidateId) {
             throw new Error("Candidate was created without an ID");
         }
@@ -126,7 +123,6 @@ export class CandidatesRepository {
         }
 
         const candidate = await this.findById(candidateId);
-
         if (!candidate) {
             throw new Error("Created candidate could not be retrieved");
         }

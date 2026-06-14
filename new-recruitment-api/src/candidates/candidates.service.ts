@@ -21,7 +21,6 @@ export class CandidatesService {
         }
 
         const existingJobOfferIds = await this.candidatesRepository.findExistingJobOfferIds(input.jobOfferIds);
-
         const existingJobOfferIdSet = new Set(existingJobOfferIds);
         const missingJobOfferIds = input.jobOfferIds.filter((jobOfferId) =>
             !existingJobOfferIdSet.has(jobOfferId)
@@ -32,24 +31,22 @@ export class CandidatesService {
                 400,
                 "Some selected job offers do not exist",
                 {
-                    details: {
-                        missingJobOfferIds,
-                    },
+                    details: { missingJobOfferIds },
                 },
             );
         }
 
         try {
             return await this.candidatesRepository.runInTransaction(async () => {
-                    const candidate = await this.candidatesRepository.create(input);
+                const candidate = await this.candidatesRepository.create(input);
 
-                    await this.legacyCandidatesGateway.createCandidate({
-                            firstName: input.firstName,
-                            lastName: input.lastName,
-                            email: input.email,
-                        });
+                await this.legacyCandidatesGateway.createCandidate({
+                    firstName: input.firstName,
+                    lastName: input.lastName,
+                    email: input.email,
+                });
 
-                    return candidate;
+                return candidate;
                 });
         } catch (error) {
             throw error;
