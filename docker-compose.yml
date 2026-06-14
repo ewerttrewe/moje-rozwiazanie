@@ -2,7 +2,19 @@ services:
   legacy-api:
     build:
       context: ./legacy-api
+      dockerfile: Dockerfile
     container_name: legacy-api
     restart: always
     ports:
       - "4040:4040"
+
+  app:
+    build:
+      context: ./new-recruitment-api
+      dockerfile: Dockerfile
+    container_name: new-recruitment-api
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./new-recruitment-api/.env

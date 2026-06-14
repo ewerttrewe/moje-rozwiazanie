@@ -1,5 +1,5 @@
 import express from "express";
-import { CandidatesController } from "./candidates.controller";
+import { CandidatesController } from "./candidates/candidates.controller";
 
 export const setupApp = async () => {
     const app = express();
