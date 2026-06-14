@@ -52,11 +52,6 @@ export class CandidatesService {
                     return candidate;
                 });
         } catch (error) {
-            if (error instanceof Error && error.message.includes("UNIQUE constraint failed")
-            ) {
-                throw createHttpError(409, "Candidate with this email already exists");
-            }
-
             throw error;
         }
     }

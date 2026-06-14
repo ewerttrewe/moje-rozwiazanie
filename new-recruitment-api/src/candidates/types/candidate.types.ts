@@ -15,14 +15,3 @@ export interface Candidate {
     createdAt: string;
     jobOfferIds: number[];
 }
-
-export interface PaginatedCandidates {
-    items: Candidate[];
-
-    pagination: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPages: number;
-    };
-}
